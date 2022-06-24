@@ -1,6 +1,7 @@
 <script setup>
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
+import YupPassword from "yup-password";
 import router from "../router";
 const props = defineProps({
   title: String,
@@ -13,10 +14,11 @@ function redirect() {
 }
 
 useForm();
+YupPassword(yup);
 const { handleSubmit, errors } = useForm({
   validationSchema: yup.object().shape({
     email: yup.string().required().email(),
-    password: yup.string().required().min(3),
+    password: yup.string().password(),
   }),
 });
 const onSubmit = handleSubmit((values) => {
