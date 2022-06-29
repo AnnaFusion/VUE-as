@@ -11,11 +11,12 @@ import { RouterView } from "vue-router";
 .inside__view {
   @extend %display-center;
   max-width: 960px;
+  width: 100%;
   margin: 0 auto;
 }
 .full__view {
+  @extend %display-center;
   width: 100vw;
   height: 100vh;
-  @extend %display-center;
 }
 </style>

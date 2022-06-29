@@ -1,121 +1,94 @@
 <script setup>
+import { ref, computed } from "vue";
+import router from "../router";
 import FilterStops from "./FilterStops.vue";
 import TicketItem from "./TicketItem.vue";
+import ButtonLink from "./ButtonLink.vue";
 
-const data = [
+const props = defineProps({
+  tickets: Array,
+  sort: String,
+});
+
+const emit = defineEmits(["handleSortClick", "handleClickAdd", "setFilters"]);
+
+const buttons = [
   {
-    createdAt: "2022-06-20T13:47:28.106Z",
-    updatedAt: "2022-06-20T13:47:28.106Z",
-    deletedAt: null,
-    ticketEntityId: 397,
-    price: 92789,
-    carrier: "FCA",
-    segments: [
-      {
-        date: "2022-09-19T22:12:55.807Z",
-        stops: ["RWP", "GVA"],
-        origin: "BUF",
-        duration: 662,
-        destination: "BGF",
-      },
-      {
-        date: "2022-11-27T15:39:11.287Z",
-        stops: [],
-        origin: "BGF",
-        duration: 401,
-        destination: "BUF",
-      },
-    ],
+    label: "Самый дешевый",
+    selector: "cheap",
+    extraClass: "left-button",
   },
   {
-    createdAt: "2022-06-20T13:47:28.106Z",
-    updatedAt: "2022-06-20T13:47:28.106Z",
-    deletedAt: null,
-    ticketEntityId: 397,
-    price: 12121212,
-    carrier: "FCA",
-    segments: [
-      {
-        date: "2022-09-19T22:12:55.807Z",
-        stops: ["RWP", "GVA"],
-        origin: "BUF",
-        duration: 662,
-        destination: "BGF",
-      },
-      {
-        date: "2022-11-27T15:39:11.287Z",
-        stops: [],
-        origin: "BGF",
-        duration: 401,
-        destination: "BUF",
-      },
-    ],
+    label: "Самый быстрый",
+    selector: "fast",
   },
   {
-    createdAt: "2022-06-20T13:47:28.106Z",
-    updatedAt: "2022-06-20T13:47:28.106Z",
-    deletedAt: null,
-    ticketEntityId: 397,
-    price: 13564,
-    carrier: "FCA",
-    segments: [
-      {
-        date: "2022-09-19T22:12:55.807Z",
-        stops: ["RWP", "GVA"],
-        origin: "BUF",
-        duration: 662,
-        destination: "BGF",
-      },
-      {
-        date: "2022-11-27T15:39:11.287Z",
-        stops: [],
-        origin: "BGF",
-        duration: 401,
-        destination: "BUF",
-      },
-    ],
-  },
-  {
-    createdAt: "2022-06-20T13:47:28.106Z",
-    updatedAt: "2022-06-20T13:47:28.106Z",
-    deletedAt: null,
-    ticketEntityId: 397,
-    price: 152398,
-    carrier: "FCA",
-    segments: [
-      {
-        date: "2022-09-19T22:12:55.807Z",
-        stops: ["RWP", "GVA"],
-        origin: "BUF",
-        duration: 662,
-        destination: "BGF",
-      },
-      {
-        date: "2022-11-27T15:39:11.287Z",
-        stops: [],
-        origin: "BGF",
-        duration: 401,
-        destination: "BUF",
-      },
-    ],
+    label: "Оптимальный",
+    selector: "optimal",
+    extraClass: "right-button",
   },
 ];
+
+const widthScreen = ref(window.screen.width);
+
+window.addEventListener("resize", () => {
+  widthScreen.value = document.documentElement.clientWidth;
+});
+
+const isBig = computed(() => widthScreen.value > 780);
+
+function redirect() {
+  localStorage.clear();
+  router.replace({ name: "logout" });
+}
+
+function setFiltersNew(valueArr) {
+  emit("setFilters", valueArr);
+}
 </script>
 
 <template>
   <div class="tickets">
+    <div class="tickets__logout">
+      <ButtonLink
+        label="Log out"
+        @handleClick="redirect"
+        :style="{ 'background-color': '#F3F7FA' }"
+      />
+    </div>
     <div class="tickets__header">
       <img class="header__logo" src="/Logo.png" />
     </div>
     <div class="tickets__body">
-      <FilterStops />
+      <FilterStops v-if="isBig" :isBig="isBig" @setFiltersNew="setFiltersNew" />
       <div class="tickets__list">
+        <div class="tickets__sort">
+          <button
+            v-for="button in buttons"
+            :key="button.label"
+            class="tickets__sort__button"
+            :class="{
+              'sort-active': sort === button.selector,
+              [button.extraClass]: true,
+            }"
+            @click="emit('handleSortClick', button.selector)"
+          >
+            {{ button.label }}
+          </button>
+        </div>
+        <FilterStops
+          v-if="!isBig"
+          :isBig="isBig"
+          @setFiltersNew="setFiltersNew"
+        />
         <TicketItem
-          v-for="ticket in data"
-          :key="ticket.createdAt"
+          v-for="ticket in tickets"
+          :key="ticket.createdAt + Math.random()"
           :ticketItem="ticket"
         />
-        <button class="tickets__button">Показать еще 5 билетов</button>
+        <button class="tickets__button" @click="emit('handleClickAdd')">
+          Показать еще 5 билетов
+        </button>
       </div>
     </div>
   </div>
@@ -125,7 +98,7 @@ const data = [
 @import "@/assets/base.scss";
 .tickets__header {
   @extend %display-center;
-  height: 160px;
+  height: 135px;
 }
 .header__logo {
   width: 60px;
@@ -146,5 +119,38 @@ const data = [
       margin-bottom: 30px;
     }
   }
+}
+.tickets__sort {
+  @extend %rounded-shadowed;
+  width: 100%;
+  height: 50px;
+  &__button {
+    @extend %clean-input;
+    width: 33.3%;
+    height: 100%;
+    background-color: white;
+    border-radius: 0;
+    text-transform: uppercase;
+    color: $primary-color;
+    font-weight: 600;
+    font-size: 12px;
+  }
+}
+.sort-active {
+  background-color: $highlight-color;
+  color: white;
+}
+.left-button {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.right-button {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.tickets__logout {
+  width: 100%;
+  display: flex;
+  justify-content: end;
 }
 </style>

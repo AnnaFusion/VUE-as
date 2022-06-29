@@ -2,18 +2,22 @@
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
 import YupPassword from "yup-password";
+
 import router from "../router";
+import ButtonLink from "./ButtonLink.vue";
+
 const props = defineProps({
   title: String,
   linkText: String,
   link: String,
 });
 
+const emit = defineEmits(["functionSubmit"]);
+
 function redirect() {
   router.replace({ name: props.link });
 }
 
-useForm();
 YupPassword(yup);
 const { handleSubmit, errors } = useForm({
   validationSchema: yup.object().shape({
@@ -21,8 +25,12 @@ const { handleSubmit, errors } = useForm({
     password: yup.string().password(),
   }),
 });
-const onSubmit = handleSubmit((values) => {
-  alert(JSON.stringify(values));
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    emit("functionSubmit", values);
+  } catch (err) {
+    console.log(err);
+  }
 });
 </script>
 
@@ -40,9 +48,11 @@ const onSubmit = handleSubmit((values) => {
     </div>
     <button class="login__button" type="submit">{{ title }}</button>
     <div class="login__link">
-      <button class="link__button" @click="redirect">
-        {{ linkText }}
-      </button>
+      <ButtonLink
+        :label="linkText"
+        :style="{ 'background-color': 'white' }"
+        @handleClick="redirect"
+      />
     </div>
   </form>
 </template>

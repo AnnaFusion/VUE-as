@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LoginView from "../views/LoginView.vue";
-import SignupView from "../views/SignupView.vue";
+
+import { useUserStore } from "../stores/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,20 +8,35 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: LoginView,
+      component: () => import("../views/LoginView.vue"),
     },
     {
       path: "/signup",
       name: "signup",
-      component: SignupView,
+      component: () => import("../views/SignupView.vue"),
     },
     {
       path: "/tickets",
       name: "tickets",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/TicketListView.vue"),
+      beforeEnter: async () => {
+        const store = useUserStore();
+        if (!store.isAuthentificated) {
+          await store.getUser();
+          if (!store.isAuthentificated) {
+            return { name: "home" };
+          }
+        }
+      },
+    },
+    {
+      path: "/logout",
+      name: "logout",
+      beforeEnter: () => {
+        const store = useUserStore();
+        store.user = null;
+      },
+      redirect: "/",
     },
   ],
 });

@@ -1,35 +1,63 @@
 <script setup>
 import { ref } from "vue";
+
+const props = defineProps({
+  isBig: Boolean,
+});
+
+const emit = defineEmits(["setFiltersNew"]);
+
 const stops = ref([
   {
     selected: true,
     label: "Все",
+    number: 100,
   },
   {
     selected: false,
     label: "Без пересадок",
+    number: 0,
   },
   {
     selected: false,
     label: "1 пересадка",
+    number: 1,
   },
   {
     selected: false,
     label: "2 пересадки",
+    number: 2,
   },
   {
     selected: false,
     label: "3 пересадки",
+    number: 3,
   },
 ]);
+
+function setFilters() {
+  const valueArr = stops.value.filter(
+    (item) => item.selected && !stops.value[0].selected
+  );
+  emit("setFiltersNew", valueArr);
+}
 </script>
 
 <template>
-  <div class="filter-stops">
-    <div class="filter-stops__header">Количество пересадок</div>
-    <div class="filter-stops__stop" v-for="stop in stops" :key="stop.label">
-      <input class="stop__selector" type="checkbox" value="{{stop.selected}}" />
-      {{ stop.label }}
+  <div :class="{ 'filter-stops': true, 'filter-stops--small': !isBig }">
+    <div v-if="isBig" class="filter-stops__header">Количество пересадок</div>
+    <div
+      :class="{ 'filter-stops__stop': true, 'stop--small': !isBig }"
+      v-for="stop in stops"
+      :key="stop?.label"
+    >
+      <input
+        class="stop__selector"
+        type="checkbox"
+        v-model="stop.selected"
+        @change="setFilters"
+      />
+      {{ stop?.label }}
     </div>
   </div>
 </template>
@@ -61,5 +89,14 @@ const stops = ref([
     height: 20px;
     margin-right: 10px;
   }
+}
+.filter-stops--small {
+  width: 502px;
+  display: flex;
+}
+
+.stop--small {
+  padding: 10px 5px 10px 10px;
+  font-size: 10px;
 }
 </style>

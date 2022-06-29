@@ -2,6 +2,7 @@
 
 $primary-color: #4A4A4A;
 $primary-color-lighter: #9b9b9b;
+$bg-color: #F3F7FA;
 $highlight-color: #2196F3;
 $font: 'Open Sans', sans-serif;
 
@@ -43,7 +44,7 @@ $font: 'Open Sans', sans-serif;
 }
 
 body {
-  background: #F3F7FA;
+  background: $bg-color;
   line-height: 1.6;
   font-family: $font;
   font-size: 12px;
