@@ -118,13 +118,14 @@ function setFiltersNew(valueArr) {
     .tickets__button {
       @extend %active-button;
       width: 100%;
-      height: 40px;
+      min-height: 40px;
       margin-bottom: 30px;
     }
   }
 }
 .tickets__sort {
   @extend %rounded-shadowed;
+  @extend %display-space-between;
   width: 100%;
   &__button {
     @extend %clean-input;
@@ -136,6 +137,7 @@ function setFiltersNew(valueArr) {
     color: $primary-color;
     font-weight: 600;
     font-size: 12px;
+    word-break: break-word;
   }
 }
 .sort-active {

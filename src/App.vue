@@ -16,7 +16,8 @@ import { RouterView } from "vue-router";
 }
 .full__view {
   @extend %display-center;
+  box-sizing: content-box;
   width: 100vw;
-  height: 100vh;
+  height: 98vh;
 }
 </style>

@@ -30,7 +30,7 @@ export const useTicketsStore = defineStore({
         return this.tickets;
       } catch (err) {
         console.log(err);
-        if (err.response.status === 500) {
+        if (err.response?.status === 500) {
           this.tickets = mockData;
         }
       }

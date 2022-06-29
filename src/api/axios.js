@@ -48,6 +48,12 @@ axiosInstance.interceptors.response.use(
       store.isPasswordWrong = true;
       store.errorMessage = error.response.data.message;
     }
+    if (error.response.data?.data[0].message === "Email should be unique") {
+      const store = useUserStore();
+      store.isPasswordWrong = true;
+      store.errorMessage =
+        "This email has already been registered Try to log in";
+    }
     if (error.response.status === 401) {
       router.replace({ name: "home" });
     }
