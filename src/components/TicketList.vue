@@ -37,6 +37,8 @@ window.addEventListener("resize", () => {
 
 const isBig = computed(() => widthScreen.value > 780);
 
+const isSmall = computed(() => widthScreen.value < 520);
+
 function redirect() {
   localStorage.clear();
   router.replace({ name: "logout" });
@@ -85,6 +87,7 @@ function setFiltersNew(valueArr) {
           v-for="ticket in tickets"
           :key="ticket.createdAt + Math.random()"
           :ticketItem="ticket"
+          :isSmall="isSmall"
         />
         <button class="tickets__button" @click="emit('handleClickAdd')">
           Показать еще 5 билетов
@@ -123,11 +126,10 @@ function setFiltersNew(valueArr) {
 .tickets__sort {
   @extend %rounded-shadowed;
   width: 100%;
-  height: 50px;
   &__button {
     @extend %clean-input;
     width: 33.3%;
-    height: 100%;
+    min-height: 50px;
     background-color: white;
     border-radius: 0;
     text-transform: uppercase;

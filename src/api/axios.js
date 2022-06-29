@@ -2,6 +2,7 @@ import axios from "axios";
 import setTokens from "../utils/setTokens";
 import { refreshAccessToken } from "./authorization";
 import router from "../router";
+import { useUserStore } from "../stores/user";
 
 const axiosInstance = axios.create({
   baseURL: "https://test-api.fusion-tech.pro/api/v1",
@@ -24,11 +25,13 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    console.log(error);
     if (
       error.response.status === 401 &&
       error.config &&
       !error.config.__isRetryReques &&
-      error.config.url !== "/auth/refresh-token"
+      error.config.url !== "/auth/refresh-token" &&
+      error.response.data.message !== "Wrong password"
     ) {
       console.log("refreshing");
       error.config.__isRetryRequest = true;
@@ -36,6 +39,14 @@ axiosInstance.interceptors.response.use(
       const tokensData = await refreshAccessToken({ token });
       setTokens(tokensData.data.data.tokens);
       return axiosInstance(originalRequest);
+    }
+    if (
+      error.response.data?.message === "Wrong password" ||
+      error.response.status === 404
+    ) {
+      const store = useUserStore();
+      store.isPasswordWrong = true;
+      store.errorMessage = error.response.data.message;
     }
     if (error.response.status === 401) {
       router.replace({ name: "home" });

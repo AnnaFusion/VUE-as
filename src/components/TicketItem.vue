@@ -8,11 +8,12 @@ import TicketFlight from "./TicketFlight.vue";
 
 const props = defineProps({
   ticketItem: Object,
+  isSmall: Boolean,
 });
 </script>
 
 <template>
-  <div class="ticket">
+  <div :class="{ ticket: true, 'ticket--small': isSmall }">
     <div class="ticket__header">
       <div class="header__price">
         {{ `${ticketItem?.price?.toLocaleString()} Р` }}
@@ -23,7 +24,7 @@ const props = defineProps({
     </div>
     <div class="ticket__body">
       <div
-        class="ticket__flight"
+        :class="{ ticket__flight: true, 'ticket__flight--small': isSmall }"
         v-for="segment in ticketItem?.segments"
         :key="segment.duration + Math.random()"
       >
@@ -63,11 +64,19 @@ const props = defineProps({
     min-height: 90px;
     @extend %display-space-between;
     flex-flow: column;
+    row-gap: 15px;
     padding-top: 20px;
 
     .ticket__flight {
       @extend %display-space-between;
     }
   }
+}
+.ticket--small {
+  width: 95%;
+}
+.ticket__flight--small {
+  flex-flow: column wrap;
+  max-height: 88px;
 }
 </style>

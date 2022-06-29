@@ -91,8 +91,9 @@ function setFilters() {
   }
 }
 .filter-stops--small {
-  width: 502px;
+  width: 100%;
   display: flex;
+  flex-flow: row wrap;
 }
 
 .stop--small {

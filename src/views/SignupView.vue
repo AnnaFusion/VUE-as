@@ -6,8 +6,12 @@ import { useUserStore } from "../stores/user";
 const store = useUserStore();
 
 async function signup(values) {
-  await store.signUp(values);
-  router.replace({ name: "tickets" });
+  try {
+    await store.signUp(values);
+    router.replace({ name: "tickets" });
+  } catch (err) {
+    console.log(err);
+  }
 }
 </script>
 

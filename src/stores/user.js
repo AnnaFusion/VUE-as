@@ -7,6 +7,8 @@ export const useUserStore = defineStore({
   id: "user",
   state: () => ({
     user: null,
+    isPasswordWrong: false,
+    errorMessage: "",
   }),
   getters: {
     isAuthentificated: (state) => {

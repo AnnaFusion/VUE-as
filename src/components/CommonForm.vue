@@ -2,7 +2,7 @@
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
 import YupPassword from "yup-password";
-
+import ModalSimple from "./ModalSimple.vue";
 import router from "../router";
 import ButtonLink from "./ButtonLink.vue";
 
@@ -35,6 +35,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
+<ModalSimple />
   <form class="login" @submit="onSubmit">
     <div class="login__header">
       <img class="login__logo" src="/Logo.png" />
@@ -43,7 +44,12 @@ const onSubmit = handleSubmit(async (values) => {
     <div class="login__body">
       <Field name="email" class="login__input" placeholder="Email" />
       <span class="login__input--error">{{ errors.email }}</span>
-      <Field name="password" class="login__input" placeholder="Password" />
+      <Field
+        name="password"
+        class="login__input"
+        placeholder="Password"
+        type="password"
+      />
       <span class="login__input--error">{{ errors.password }}</span>
     </div>
     <button class="login__button" type="submit">{{ title }}</button>
