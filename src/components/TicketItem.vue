@@ -49,7 +49,7 @@ const props = defineProps({
 @import "@/assets/base.scss";
 .ticket {
   @extend %rounded-shadowed;
-  width: 462px;
+  width: 91.5%;
   min-height: 144px;
   padding: 20px;
   &__header {
@@ -73,7 +73,7 @@ const props = defineProps({
   }
 }
 .ticket--small {
-  width: 95%;
+  width: 90%;
 }
 .ticket__flight--small {
   flex-flow: column wrap;

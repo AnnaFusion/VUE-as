@@ -17,6 +17,9 @@ export const useTicketsStore = defineStore({
   getters: {
     filteredTickets: (state) => filterStops(state.tickets, state.filters),
     slicedTickets: (state) => state.filteredTickets.slice(0, state.index),
+    isAllShown: (state) =>
+      state.filteredTickets.length === state.index ||
+      state.filteredTickets.length < state.index,
   },
   actions: {
     async getTickets() {
@@ -31,7 +34,7 @@ export const useTicketsStore = defineStore({
       } catch (err) {
         console.log(err);
         if (err.response?.status === 500) {
-          this.tickets = mockData;
+          this.tickets = sort(mockData, "cheap");
         }
       }
     },

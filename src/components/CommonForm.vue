@@ -2,6 +2,7 @@
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
 import YupPassword from "yup-password";
+
 import ModalSimple from "./ModalSimple.vue";
 import router from "../router";
 import ButtonLink from "./ButtonLink.vue";
@@ -35,25 +36,25 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-<ModalSimple />
-  <form class="login" @submit="onSubmit">
-    <div class="login__header">
-      <img class="login__logo" src="/Logo.png" />
+  <ModalSimple />
+  <form class="form" @submit="onSubmit">
+    <div class="form__header">
+      <img class="form__logo" src="/Logo.png" />
       {{ title }}
     </div>
-    <div class="login__body">
-      <Field name="email" class="login__input" placeholder="Email" />
-      <span class="login__input--error">{{ errors.email }}</span>
+    <div class="form__body">
+      <Field name="email" class="form__input" placeholder="Email" />
+      <span class="form__input--error">{{ errors.email }}</span>
       <Field
         name="password"
-        class="login__input"
+        class="form__input"
         placeholder="Password"
         type="password"
       />
-      <span class="login__input--error">{{ errors.password }}</span>
+      <span class="form__input--error">{{ errors.password }}</span>
     </div>
-    <button class="login__button" type="submit">{{ title }}</button>
-    <div class="login__link">
+    <button class="form__button" type="submit">{{ title }}</button>
+    <div class="form__link">
       <ButtonLink
         :label="linkText"
         :style="{ 'background-color': 'white' }"
@@ -65,54 +66,44 @@ const onSubmit = handleSubmit(async (values) => {
 
 <style lang="scss" scoped>
 @import "@/assets/base.scss";
-.login {
+.form {
   @extend %rounded-shadowed;
-  width: 400px;
+  max-width: 400px;
   margin-top: 20px;
-
-  .login__header {
+  &__header {
     @extend %display-center;
     @extend %headers-font;
     font-size: 20px;
     margin: 10px 0 20px 0;
   }
-  .login__body {
+  &__body {
     min-height: 120px;
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+  }
+  .form__input {
+    @extend %clean-input;
+    min-height: 20px;
+    width: 250px;
+    margin: 5px 40px;
+    border-bottom: 1px solid $primary-color-lighter;
 
-    .login__input {
-      @extend %clean-input;
-      min-height: 20px;
-      margin: 5px 40px;
-      border-bottom: 1px solid $primary-color-lighter;
-
-      &--error {
-        @extend %display-center;
-        min-height: 16px;
-        color: red;
-      }
+    &--error {
+      @extend %display-center;
+      min-height: 16px;
+      color: red;
     }
   }
-  .login__button {
+  &__button {
     @extend %active-button;
     height: 40px;
     width: 80%;
     margin: 0 40px 30px 40px;
   }
-  .login__link {
+  &__link {
     @extend %display-center;
     margin-bottom: 20px;
-    .link__button {
-      @extend %clean-input;
-      background-color: white;
-      cursor: pointer;
-    }
-    .link__button:hover {
-      text-decoration: underline;
-      color: $highlight-color;
-    }
   }
 }
 </style>

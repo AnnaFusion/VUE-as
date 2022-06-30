@@ -8,6 +8,7 @@ import ButtonLink from "./ButtonLink.vue";
 const props = defineProps({
   tickets: Array,
   sort: String,
+  isAllShown: Boolean,
 });
 
 const emit = defineEmits(["handleSortClick", "handleClickAdd", "setFilters"]);
@@ -89,7 +90,11 @@ function setFiltersNew(valueArr) {
           :ticketItem="ticket"
           :isSmall="isSmall"
         />
-        <button class="tickets__button" @click="emit('handleClickAdd')">
+        <button
+          v-if="!isAllShown"
+          class="tickets__button"
+          @click="emit('handleClickAdd')"
+        >
           Показать еще 5 билетов
         </button>
       </div>

@@ -94,10 +94,11 @@ function setFilters() {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
 }
 
 .stop--small {
-  padding: 10px 5px 10px 10px;
+  padding: 10px 5px;
   font-size: 10px;
 }
 </style>

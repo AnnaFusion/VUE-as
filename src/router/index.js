@@ -6,8 +6,8 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: "/login",
+      name: "login",
       component: () => import("../views/LoginView.vue"),
     },
     {
@@ -16,15 +16,15 @@ const router = createRouter({
       component: () => import("../views/SignupView.vue"),
     },
     {
-      path: "/tickets",
-      name: "tickets",
+      path: "/",
+      name: "home",
       component: () => import("../views/TicketListView.vue"),
       beforeEnter: async () => {
         const store = useUserStore();
         if (!store.isAuthentificated) {
           await store.getUser();
           if (!store.isAuthentificated) {
-            return { name: "home" };
+            return { name: "login" };
           }
         }
       },
@@ -36,6 +36,10 @@ const router = createRouter({
         const store = useUserStore();
         store.user = null;
       },
+      redirect: "/login",
+    },
+    {
+      path: "/:pathMatch(.*)*",
       redirect: "/",
     },
   ],

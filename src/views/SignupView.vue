@@ -8,7 +8,7 @@ const store = useUserStore();
 async function signup(values) {
   try {
     await store.signUp(values);
-    router.replace({ name: "tickets" });
+    router.replace({ name: "home" });
   } catch (err) {
     console.log(err);
   }
@@ -20,7 +20,7 @@ async function signup(values) {
     <CommonForm
       title="Sign up"
       linkText="Already a member? Log in"
-      link="home"
+      link="login"
       @functionSubmit="(values) => signup(values)"
     />
   </div>

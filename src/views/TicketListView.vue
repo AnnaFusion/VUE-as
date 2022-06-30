@@ -32,11 +32,20 @@ onMounted(async () => {
     <TicketList
       :tickets="store.slicedTickets"
       :sort="store.sort"
+      :isAllShown="store.isAllShown"
       @handleSortClick="handleSortClick"
       @handleClickAdd="handleClickAdd"
       @setFilters="setFilters"
     />
   </div>
+  <div v-else class="full__view">
+    <van-loading size="70px" class="list-loader" />
+  </div>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+@import "@/assets/base.scss";
+.list-loader {
+  color: $highlight-color;
+}
+</style>

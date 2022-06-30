@@ -8,7 +8,7 @@ const store = useUserStore();
 async function login(values) {
   try {
     await store.logIn(values);
-    router.replace({ name: "tickets" });
+    router.replace({ name: "home" });
   } catch (err) {
     console.log(err);
   }
