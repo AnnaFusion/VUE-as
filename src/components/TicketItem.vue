@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div :class="{ ticket: true, 'ticket--small': isSmall }">
+  <div class="ticket">
     <div class="ticket__header">
       <div class="header__price">
         {{ `${ticketItem?.price?.toLocaleString()} Р` }}
@@ -72,8 +72,9 @@ const props = defineProps({
     }
   }
 }
-.ticket--small {
-  width: 90%;
+.ticket:hover {
+  transform: scale(1.05);
+  background-color: $highlight-background;
 }
 .ticket__flight--small {
   flex-flow: column wrap;

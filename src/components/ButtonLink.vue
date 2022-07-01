@@ -1,13 +1,8 @@
-<script setup>
-const props = defineProps({
-  label: String,
-});
-const emit = defineEmits(["handleClick"]);
-</script>
+<script setup></script>
 
 <template>
-  <button class="button-link" @click.prevent="emit('handleClick')">
-    {{ label }}
+  <button class="button-link">
+    <slot></slot>
   </button>
 </template>
 
@@ -15,7 +10,6 @@ const emit = defineEmits(["handleClick"]);
 @import "@/assets/base.scss";
 .button-link {
   @extend %clean-input;
-  cursor: pointer;
 }
 .button-link:hover {
   text-decoration: underline;

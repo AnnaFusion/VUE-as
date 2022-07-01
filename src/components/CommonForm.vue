@@ -56,10 +56,11 @@ const onSubmit = handleSubmit(async (values) => {
     <button class="form__button" type="submit">{{ title }}</button>
     <div class="form__link">
       <ButtonLink
-        :label="linkText"
         :style="{ 'background-color': 'white' }"
-        @handleClick="redirect"
-      />
+        @click.prevent="redirect"
+      >
+        {{ linkText }}
+      </ButtonLink>
     </div>
   </form>
 </template>

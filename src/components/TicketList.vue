@@ -53,11 +53,9 @@ function setFiltersNew(valueArr) {
 <template>
   <div class="tickets">
     <div class="tickets__logout">
-      <ButtonLink
-        label="Log out"
-        @handleClick="redirect"
-        :style="{ 'background-color': '#F3F7FA' }"
-      />
+      <ButtonLink @click="redirect" :style="{ 'background-color': '#F3F7FA' }">
+        Log out
+      </ButtonLink>
     </div>
     <div class="tickets__header">
       <img class="header__logo" src="/Logo.png" />

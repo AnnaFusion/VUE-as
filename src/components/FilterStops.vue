@@ -80,14 +80,16 @@ function setFilters() {
     min-height: 20px;
     padding: 10px 5px 10px 20px;
     font-size: 13px;
+    cursor: default;
   }
   .filter-stops__stop:hover {
-    background-color: #f1fcff;
+    background-color: $highlight-background;
   }
   .stop__selector {
     width: 20px;
     height: 20px;
     margin-right: 10px;
+    cursor: pointer;
   }
 }
 .filter-stops--small {

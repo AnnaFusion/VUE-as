@@ -4,6 +4,7 @@ $primary-color: #4A4A4A;
 $primary-color-lighter: #9b9b9b;
 $bg-color: #F3F7FA;
 $highlight-color: #2196F3;
+$highlight-background: #f1fcff;
 $font: 'Open Sans', sans-serif;
 
 %display-center {
@@ -60,4 +61,5 @@ input {
 
 button {
   font-family: $font;
+  cursor: pointer;
 }
